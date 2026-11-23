@@ -72,8 +72,10 @@ h1,h2,h3{font-family:var(--fd);font-weight:400;text-transform:uppercase;line-hei
 .rv{opacity:0;transform:translateY(42px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
 .rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}.rv.d4{transition-delay:.32s}
 .rv.in{opacity:1;transform:none}
-.img-rv{clip-path:inset(0 0 100% 0);transition:clip-path 1.15s var(--ease)}
-.img-rv.in{clip-path:inset(0 0 0% 0)}
+.img-rv img{clip-path:inset(0 0 100% 0);transition:clip-path 1.15s var(--ease),transform 1.2s var(--ease)}
+.img-rv.in img{clip-path:inset(0 0 0% 0)}
+.img-rv figcaption{opacity:0;transition:opacity .6s ease .4s}
+.img-rv.in figcaption{opacity:1}
 
 /* ============ NAVIGATION ============ */
 .nav{
@@ -147,7 +149,7 @@ body.menu-open .overlay a.big:nth-child(5){transition-delay:.43s}
 .giant-type{
   position:absolute;left:0;bottom:15vh;z-index:3;white-space:nowrap;
   font-family:var(--fd);text-transform:uppercase;line-height:.9;
-  font-size:clamp(120px,19.5vw,320px);color:#E4E4E4;
+  font-size:clamp(120px,19.5vw,320px);color:#A9A9A9;
   mix-blend-mode:multiply;pointer-events:none;opacity:0;will-change:transform,opacity;
 }
 .hero-kicker{
@@ -449,7 +451,9 @@ footer{background:var(--ink);color:#fff}
 /* ============ REDUCED MOTION ============ */
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
-  .rv,.img-rv{opacity:1 !important;transform:none !important;clip-path:none !important;transition:none !important}
+  .rv{opacity:1 !important;transform:none !important;transition:none !important}
+  .img-rv img{clip-path:none !important;transition:none !important}
+  .img-rv figcaption{opacity:1 !important;transition:none !important}
   .svc h3 .wipe{background-position:0 0 !important;transition:none !important}
   .cta .ghost{animation:none}
   .scroll-hint .track::after{animation:none}
