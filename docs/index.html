@@ -173,6 +173,15 @@ body.menu-open .overlay a.big:nth-child(5){transition-delay:.43s}
 .scroll-hint .track{width:56px;height:1px;background:rgba(17,17,17,.25);position:relative;overflow:hidden}
 .scroll-hint .track::after{content:"";position:absolute;inset:0;background:var(--cobalt);transform-origin:left;animation:hintslide 1.8s var(--ease) infinite}
 @keyframes hintslide{0%{transform:scaleX(0);transform-origin:left}45%{transform:scaleX(1);transform-origin:left}55%{transform:scaleX(1);transform-origin:right}100%{transform:scaleX(0);transform-origin:right}}
+.hero-highlights{
+  position:absolute;left:var(--pad);right:var(--pad);bottom:24vh;z-index:4;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(18px,2.6vw,40px);
+  opacity:0;pointer-events:none;will-change:opacity,transform;
+}
+.hero-highlights .hh{border-top:1px solid rgba(255,255,255,.22);padding-top:16px;color:#fff}
+.hero-highlights .hh svg{color:var(--cobalt);display:block;margin-bottom:12px}
+.hero-highlights .hh b{display:block;font-size:15.5px;font-weight:600;letter-spacing:.01em}
+.hero-highlights .hh span{display:block;margin-top:5px;font-size:13px;line-height:1.5;color:rgba(255,255,255,.62)}
 .hero-strip{
   position:absolute;left:0;right:0;bottom:0;z-index:6;background:var(--ink);color:#fff;
   transform:translateX(103%);will-change:transform;
@@ -434,6 +443,9 @@ footer{background:var(--ink);color:#fff}
   .foot-main{grid-template-columns:1fr 1fr}
   .foot-brand{grid-column:span 2}
   .giant-type{bottom:44vh}
+  .hero-highlights{grid-template-columns:1fr 1fr;bottom:19vh;gap:16px 20px}
+  .hero-highlights .hh b{font-size:14px}
+  .hero-highlights .hh span{font-size:12px}
 }
 @media (max-width:560px){
   :root{--nav-h:66px}
@@ -459,6 +471,7 @@ footer{background:var(--ink);color:#fff}
   .scroll-hint .track::after{animation:none}
   .hero-scroll{height:100vh;height:100svh}
   .giant-type{opacity:.9 !important;transform:none !important}
+  .hero-highlights{display:none}
   .hero-strip{transform:none !important}
   .ind img,.about-media img,.svc,.svc .ic,.svc .arr svg{transition:none !important}
 }
@@ -517,6 +530,24 @@ footer{background:var(--ink);color:#fff}
       aria-label="Reach-stacker mengangkat kontainer dan menempatkannya ke truk trailer">
     </video>
     <div class="giant-type" id="giantType" aria-hidden="true">Layanan Kami</div>
+    <div class="hero-highlights" id="heroHighlights" aria-hidden="true">
+      <div class="hh">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.9 5.7 3.9 9S14.5 18.4 12 21c-2.5-2.6-3.9-5.7-3.9-9S9.5 5.6 12 3z"/></svg>
+        <b>Jaringan Global</b><span>Terhubung ke jalur perdagangan utama dunia.</span>
+      </div>
+      <div class="hh">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="19" r="2.2"/><circle cx="19" cy="5" r="2.2"/><path d="M7.2 19H15a4 4 0 0 0 0-8h-6a4 4 0 0 1 0-8h1.8" stroke-dasharray="3.5 3"/></svg>
+        <b>Visibilitas Penuh</b><span>Status pengiriman jelas dari asal sampai tujuan.</span>
+      </div>
+      <div class="hh">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg>
+        <b>Satu Mitra Terpadu</b><span>Udara, laut, bea cukai, dan gudang dalam satu grup.</span>
+      </div>
+      <div class="hh">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2.5" y="13" width="4.5" height="6.5" rx="2"/><rect x="17" y="13" width="4.5" height="6.5" rx="2"/><path d="M19.5 19.5c0 1.7-1.6 2.5-4 2.5"/></svg>
+        <b>Dukungan Khusus</b><span>Didampingi tim operasional di setiap tahap.</span>
+      </div>
+    </div>
     <p class="hero-kicker">Pengiriman Udara · Laut · Darat — Jaringan Global</p>
     <div class="speedo" id="speedo" aria-hidden="true"><span id="speedVal">00</span>&nbsp;KM/H</div>
     <div class="scroll-hint" id="scrollHint" aria-hidden="true">Gulir<span class="track"></span></div>
@@ -1138,6 +1169,7 @@ var spyIO = new IntersectionObserver(function(entries){
 var heroSec = document.getElementById("hero");
 var vid = document.getElementById("heroVideo");
 var giant = document.getElementById("giantType");
+var highlights = document.getElementById("heroHighlights");
 var strip = document.getElementById("heroStrip");
 var speedo = document.getElementById("speedo");
 var speedVal = document.getElementById("speedVal");
@@ -1175,6 +1207,12 @@ function heroFrame(now){
       var gp = clamp((p - .55) / .45, 0, 1);
       giant.style.opacity = clamp((p - .55) / .13, 0, 1).toFixed(3);
       giant.style.transform = "translateX(" + (7 - 32 * gp) + "%)";
+      /* band highlights fade in once the truck has settled */
+      if(highlights){
+        var hp = clamp((p - .64) / .14, 0, 1);
+        highlights.style.opacity = hp.toFixed(3);
+        highlights.style.transform = "translateY(" + ((1 - hp) * 16).toFixed(1) + "px)";
+      }
       /* service strip enters from the right */
       var sp = clamp((p - .8) / .18, 0, 1);
       var se = 1 - Math.pow(1 - sp, 3);
